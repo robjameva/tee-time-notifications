@@ -1,0 +1,24 @@
+{
+  "name": "tee-time-notifications",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/robjameva/tee-time-notifications.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/robjameva/tee-time-notifications/issues"
+  },
+  "homepage": "https://github.com/robjameva/tee-time-notifications#readme",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.10",
+    "node-fetch": "^2.6.7"
+  }
+}
