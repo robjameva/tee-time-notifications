@@ -51,7 +51,7 @@ let task = async () => {
         const result = await request(endpoint, query, variables)
 
 
-        console.log('result : ', result)
+        console.log('results : ', result)
 
         let phoneNum = result.checkAvailability.user.phone_number;
 
