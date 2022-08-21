@@ -13,14 +13,16 @@
   "dependencies": {
     "apollo-server-express": "^3.6.4",
     "bcrypt": "^5.0.0",
-    "dotenv": "^16.0.0",
+    "dotenv": "^16.0.1",
     "express": "^4.17.1",
     "graphql": "^15.5.0",
+    "graphql-request": "^4.3.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.13",
+    "node-cron": "^3.0.2",
     "node-fetch": "^2.6.7",
     "puppeteer": "^16.1.0",
-    "twilio": "^3.76.0"
+    "twilio": "^3.80.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.3"

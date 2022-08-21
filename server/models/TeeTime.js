@@ -7,16 +7,16 @@ const teeTimeSchema = new Schema(
             ref: 'User'
         },
         course_id: {
-            type: Number
+            type: Array
         },
         date: {
             type: Date
         },
         start_time: {
-            type: Number
+            type: Date
         },
         end_time: {
-            type: Number
+            type: Date
         },
         number_of_players: {
             type: Array

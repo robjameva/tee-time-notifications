@@ -15,10 +15,10 @@ const typeDefs = gql`
 	type TeeTime {
 		_id: ID
 		user: User
-		course_id: Int
+		course_id: [Int]
 		date: String
-		start_time: Int
-		end_time: Int
+		start_time: String
+		end_time: String
 		number_of_players:[Int]
 		expiration: String
 	}
@@ -33,10 +33,10 @@ const typeDefs = gql`
 
 	input TeeTimeInput {
 		user: ID
-		course_id: Int
+		course_id: [Int]
 		date: String
-		start_time: Int
-		end_time: Int
+		start_time: String
+		end_time: String
 		number_of_players:[Int]
 		expiration: String
 	}
@@ -45,11 +45,18 @@ const typeDefs = gql`
 		token: ID!
 		user: User
 	}
+
+	type TeeTimeResponse {
+		user: User
+		teetimes: [String]
+	}
 	
 	type Query {
 		getUser(userId: ID!): User
 		getAllUsers: [User]
 		getAllTeeTimes: [TeeTime]
+		getWatchlist: [String]
+		checkAvailability(_id: ID!): TeeTimeResponse
 	}
   
 	type Mutation {

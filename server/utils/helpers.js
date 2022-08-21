@@ -4,41 +4,32 @@ module.exports = {
             date
         ).getFullYear()}`;
     },
-    // CREDIT: https://learnwithparam.com/blog/how-to-group-by-array-of-objects-using-a-key/
-    // Accepts the array and key
-    group_assets: (array, key) => {
-        // Return the end result
-        return array.reduce((result, currentValue) => {
-            // If an array already present for key, push it to the array. Else create an array and push the object
-            (result[currentValue[key]] = result[currentValue[key]] || []).push(
-                currentValue
-            );
-            // Return the current iteration `result` value, this will be taken as next iteration `result` value and accumulate
-            return result;
-        }, {}); // empty object is the initial value for result object
-    },
-    extract_coin_data: (coinData) => {
-        const coinsArr = []
-
-        coinData.forEach(coin => {
-            const obj = {}
-            const coinName = coin.coin_id;
-            const quantity = coin.quantity;
-            const price = coin.coin_priceUsd;
-
-            obj.coin = coinName;
-            obj.quantity = quantity;
-            obj.price = price;
-            coinsArr.push(obj);
-        })
-        return coinsArr;
-    },
-    currency_formatter: (value) => {
-        const formatter = new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD',
-        });
-
-        return formatter.format(value)
-    },
+    format_hours: (hour, minutes) => {
+        switch (hour) {
+            case '13':
+                return `1:${minutes} PM`
+            case '14':
+                return `2:${minutes} PM`
+            case '15':
+                return `3:${minutes} PM`
+            case '16':
+                return `4:${minutes} PM`
+            case '17':
+                return `5:${minutes} PM`
+            case '18':
+                return `6:${minutes} PM`
+            case '19':
+                return `7:${minutes} PM`
+            case '20':
+                return `8:${minutes} PM`
+            case '21':
+                return `9:${minutes} PM`
+            case '22':
+                return `10:${minutes} PM`
+            case '23':
+                return `11:${minutes} PM`
+            default:
+                return `${hour}:${minutes} AM`
+        }
+    }
 }

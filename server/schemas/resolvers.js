@@ -1,7 +1,8 @@
 const { AuthenticationError } = require('apollo-server-express');
 const { User, TeeTime } = require('../models');
 const { signToken } = require('../utils/auth');
-// const { group_assets, extract_coin_data, currency_formatter } = require('../utils/helpers');
+const scrape = require('../scrapper');
+const { format_hours } = require('../utils/helpers');
 
 const resolvers = {
     Query: {
@@ -21,8 +22,49 @@ const resolvers = {
                 .select('-__v')
                 .populate('user')
 
-            console.log(result)
             return result
+        },
+        getWatchlist: async () => {
+            const result = await TeeTime.find({})
+                .select('-__v')
+
+            let resultArr = result.map(({ _id }) => _id)
+
+            return resultArr
+        },
+        checkAvailability: async (parent, { _id }) => {
+            const teeTime = await TeeTime.findOne({ _id })
+                .select('-__v')
+                .populate('user')
+
+
+            const course = teeTime.course_id;
+            const number_of_players = teeTime.number_of_players.join();
+            const date = teeTime.date.toJSON().split('T')[0];
+            const start = teeTime.start_time;
+            const end = teeTime.end_time;
+            const user = teeTime.user;
+
+            const teeTimesAvailable = await scrape(date, course, number_of_players)
+
+            const teetimes = [];
+
+
+            // console.log('teeTimesAvailable: ', teeTimesAvailable);
+            // console.log('Checking for tee times...');
+            // console.log('=========================');
+            teeTimesAvailable.forEach((time, index) => {
+                if (time >= start && time <= end) {
+                    time.setHours(time.getHours() + 4);
+                    let split = time.toString().split(' ');
+                    let timeSplit = split[4].split(':')
+                    let formatted_time = format_hours(timeSplit[0], timeSplit[1])
+                    let formatted_date = `${split[0]} ${split[1]} ${split[2]} at ${formatted_time}`
+                    teetimes.push(`✅ ${formatted_date} is available`)
+                }
+            })
+
+            return { user, teetimes }
         },
     },
     Mutation: {
