@@ -6,8 +6,7 @@ const authToken = process.env.TWILIO_AUTH_TOKEN;
 
 const client = require('twilio')(accountSid, authToken);
 const endpoint = 'https://tee-time-alerts.herokuapp.com/graphql';
-// const endpoint = 'http://localhost:3001/graphql' ;
-let counter = 0;
+// const endpoint = 'http://localhost:3001/graphql';
 
 
 const getWatchList = async () => {
@@ -22,9 +21,6 @@ const getWatchList = async () => {
 // Run GraphQL queries/mutations using a static function
 // let task = cron.schedule('*/1 * * * *', async () => {
 let task = async () => {
-    console.log('Checking for tee times: ', counter);
-    console.log('ROBERT 1');
-    counter += 1;
 
     const watchList = await getWatchList()
 
