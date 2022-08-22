@@ -15,10 +15,15 @@ const startServer = async () => {
         typeDefs,
         resolvers,
         // context: authMiddleware,
+        context: ({ res }) => {
+            res.header('access-control-allow-origin: https', 'studio.apollographql.com')
+            res.header('access-control-allow-credentials', true)
+        },
         cors: {
             origin: ["https://tee-time-alerts.herokuapp.com/", "https://studio.apollographql.com"]
         },
     });
+
 
     // Start the server
     await server.start();
