@@ -23,6 +23,7 @@ const startServer = async () => {
         cors: {
             origin: ["https://tee-time-alerts.herokuapp.com/", "https://studio.apollographql.com"]
         },
+        introspection: true
     });
 
 
