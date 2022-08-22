@@ -23,7 +23,7 @@ const getWatchList = async () => {
 // let task = cron.schedule('*/1 * * * *', async () => {
 let task = async () => {
     console.log('Checking for tee times: ', counter);
-    console.log('ROBERT ');
+    console.log('ROBERT 1');
     counter += 1;
 
     const watchList = await getWatchList()
