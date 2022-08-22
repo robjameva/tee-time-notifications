@@ -14,7 +14,10 @@ const startServer = async () => {
     const server = new ApolloServer({
         typeDefs,
         resolvers,
-        context: authMiddleware
+        // context: authMiddleware,
+        cors: {
+            origin: ["https://tee-time-alerts.herokuapp.com/", "https://studio.apollographql.com"]
+        },
     });
 
     // Start the server
