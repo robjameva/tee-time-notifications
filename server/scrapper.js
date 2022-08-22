@@ -21,7 +21,7 @@ async function scrape(date, course, numGolfers) {
 
             const dateTimeString = `${date} ${text}`
             const event = new Date(dateTimeString)
-            event.setHours(event.getHours() - 4);
+            // event.setHours(event.getHours() - 4);
 
             teeTimes.push(event)
         }
