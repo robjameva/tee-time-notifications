@@ -56,9 +56,9 @@ const resolvers = {
             // console.log('=========================');
             teeTimesAvailable.forEach((time, index) => {
                 if (time >= start && time <= end) {
-                    console.log('Time before adjustments: ', time);
-                    time.setHours(time.getHours() + 4);
-                    console.log('Time after adjustments: ', time);
+                    // console.log('Time before adjustments: ', time);
+                    // time.setHours(time.getHours() + 4);
+                    // console.log('Time after adjustments: ', time);
                     let split = time.toString().split(' ');
                     let timeSplit = split[4].split(':')
                     let formatted_time = format_hours(timeSplit[0], timeSplit[1])
