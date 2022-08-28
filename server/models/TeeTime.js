@@ -9,9 +9,6 @@ const teeTimeSchema = new Schema(
         course_id: {
             type: Array
         },
-        date: {
-            type: Date
-        },
         start_time: {
             type: Date
         },
@@ -20,9 +17,6 @@ const teeTimeSchema = new Schema(
         },
         number_of_players: {
             type: Array
-        },
-        expiration: {
-            type: Date
         }
     }
 );

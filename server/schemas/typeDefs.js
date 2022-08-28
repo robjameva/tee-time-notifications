@@ -16,11 +16,9 @@ const typeDefs = gql`
 		_id: ID
 		user: User
 		course_id: [Int]
-		date: String
 		start_time: String
 		end_time: String
 		number_of_players:[Int]
-		expiration: String
 	}
 
 	input UserInput {
@@ -34,11 +32,9 @@ const typeDefs = gql`
 	input TeeTimeInput {
 		user: ID
 		course_id: [Int]
-		date: String
 		start_time: String
 		end_time: String
 		number_of_players:[Int]
-		expiration: String
 	}
 
 	type Auth {

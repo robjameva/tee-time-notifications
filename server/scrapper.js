@@ -32,14 +32,5 @@ async function scrape(date, course, numGolfers) {
     return teeTimes
 }
 
-// const date = '2022-08-13';
-// const course = 5153;
-// const numGolfers = '3,4'
-
-
-
-
-// scrape(date, course, numGolfers)
-
 
 module.exports = scrape;

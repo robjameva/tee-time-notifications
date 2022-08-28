@@ -19,7 +19,6 @@ const getWatchList = async () => {
 
 
 // Run GraphQL queries/mutations using a static function
-// let task = cron.schedule('*/1 * * * *', async () => {
 let task = async () => {
 
     const watchList = await getWatchList()
@@ -38,8 +37,6 @@ let task = async () => {
         }
     }`;
 
-
-
     watchList.getWatchlist.forEach(async (time) => {
 
         const variables = {
@@ -48,27 +45,21 @@ let task = async () => {
 
         const result = await request(endpoint, query, variables)
 
-
         console.log('results : ', result)
 
-        let phoneNum = result.checkAvailability.user.phone_number;
-
         if (result.checkAvailability.teetimes.length > 0) {
-            client.messages
-                .create({
-                    body:
-                        `${result.checkAvailability.teetimes.join()}`,
-                    from: '+19808426566',
-                    to: `+1${phoneNum}`
-                })
+            let phoneNum = result.checkAvailability.user.phone_number;
+            client.messages.create({
+                body:
+                    `${result.checkAvailability.teetimes.join()}`,
+                from: '+19808426566',
+                to: `+1${phoneNum}`
+            })
         }
-
     })
-
 };
-// });
 
 task();
-// task.start();
+
 
 

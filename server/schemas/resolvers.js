@@ -28,7 +28,11 @@ const resolvers = {
             const result = await TeeTime.find({})
                 .select('-__v')
 
-            let resultArr = result.map(({ _id }) => _id)
+            let today = new Date().toJSON();
+
+            let fiteredResults = result.filter(event => event.start_time.toJSON() > today)
+
+            let resultArr = fiteredResults.map(({ _id }) => _id)
 
             return resultArr
         },
@@ -40,7 +44,7 @@ const resolvers = {
 
             const course = teeTime.course_id;
             const number_of_players = teeTime.number_of_players.join();
-            const date = teeTime.date.toJSON().split('T')[0];
+            const date = teeTime.start_time.toJSON().split('T')[0];
             const start = teeTime.start_time;
             const end = teeTime.end_time;
             const user = teeTime.user;
@@ -50,15 +54,13 @@ const resolvers = {
             const teetimes = [];
 
 
-            console.log('Following Tee Times are adjusted - 4 hours: ');
-            console.log('teeTimesAvailable: ', teeTimesAvailable);
+            // console.log('Following Tee Times are adjusted - 4 hours: ');
+            // console.log('teeTimesAvailable: ', teeTimesAvailable);
             // console.log('Checking for tee times...');
             // console.log('=========================');
             teeTimesAvailable.forEach((time, index) => {
                 if (time >= start && time <= end) {
-                    // console.log('Time before adjustments: ', time);
                     // time.setHours(time.getHours() + 4);
-                    // console.log('Time after adjustments: ', time);
                     let split = time.toString().split(' ');
                     let timeSplit = split[4].split(':')
                     let formatted_time = format_hours(timeSplit[0], timeSplit[1])
