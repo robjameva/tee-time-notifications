@@ -6,7 +6,7 @@
 
 <script>
 export default {
-    data: () => ({ value: 1 }),
+    data: () => ({ value: 2 }),
     methods: {
         changeTab(tab) {
             this.$emit('tab', tab)
@@ -17,7 +17,7 @@ export default {
 
 <template>
     <v-container>
-        <v-bottom-navigation :value="value" color="teal" grow app>
+        <v-bottom-navigation :value="value" color="green lighten-1" grow app>
             <v-btn @click="changeTab('add')" class="myButton">
                 <span>Add</span>
 

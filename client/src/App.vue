@@ -1,17 +1,23 @@
 <script>
 import BottomNav from './components/BottomNav';
 import AccountPage from './components/AccountPage';
+import AddEvent from './components/AddEvent';
+import WatchList from './components/WatchList';
+import RegisterPage from './components/RegisterPage';
 
 export default {
   name: 'App',
 
   components: {
     BottomNav,
-    AccountPage
+    AccountPage,
+    AddEvent,
+    WatchList,
+    RegisterPage
   },
 
   data: () => ({
-    currentTab: ''
+    currentTab: 'account'
   }),
   methods: {
     setTab(tab) {
@@ -23,8 +29,12 @@ export default {
 
 <template>
   <v-app>
+    <v-system-bar height="45" color="green lighten-1"><span> Hello Robert</span></v-system-bar>
     <v-main>
-      <Account-Page v-if="currentTab === 'account'" />
+      <Add-Event v-if="currentTab === 'add'" />
+      <Watch-List v-if="currentTab === 'times'" />
+      <Account-Page v-if="currentTab === 'account'" @tab="setTab" />
+      <Register-Page v-if="currentTab === 'register'" />
     </v-main>
     <Bottom-Nav @tab="setTab" />
   </v-app>
