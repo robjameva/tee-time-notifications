@@ -2,7 +2,7 @@ const { AuthenticationError } = require('apollo-server-express');
 const { User, TeeTime } = require('../models');
 const { signToken } = require('../utils/auth');
 const scrape = require('../scrapper');
-const { format_hours } = require('../utils/helpers');
+const { format_hours, get_course_name, get_course_link, format_text } = require('../utils/helpers');
 
 const resolvers = {
     Query: {
@@ -65,7 +65,9 @@ const resolvers = {
                     let timeSplit = split[4].split(':')
                     let formatted_time = format_hours(timeSplit[0], timeSplit[1])
                     let formatted_date = `${split[0]} ${split[1]} ${split[2]} at ${formatted_time}`
-                    teetimes.push(`✅ ${formatted_date} is available`)
+                    let course_name = get_course_name(course)
+                    let course_link = get_course_link(date, course, number_of_players)
+                    teetimes.push(format_text(formatted_date, course_name, course_link))
                 }
             })
 
@@ -102,7 +104,7 @@ const resolvers = {
             return { token, user };
         },
         createTeeTime: async (parent, { input }) => {
-            const teeTime = await (await TeeTime.create(input)).populate('user');
+            const teeTime = await TeeTime.create(input);
 
 
             return teeTime;
