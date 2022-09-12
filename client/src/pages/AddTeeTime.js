@@ -4,7 +4,7 @@ import AddTeeTime from "../components/AddTeeTime";
 const Home = () => {
   return (
     <div className="container">
-      <AddTeeTime />
+      <AddTeeTime desktop={true}/>
     </div>
   );
 };
