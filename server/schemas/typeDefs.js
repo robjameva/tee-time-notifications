@@ -15,7 +15,7 @@ const typeDefs = gql`
 	type TeeTime {
 		_id: ID
 		user: User
-		course_id: [Int]
+		course_id: Int
 		start_time: String
 		end_time: String
 		number_of_players:[Int]
@@ -31,7 +31,7 @@ const typeDefs = gql`
 
 	input TeeTimeInput {
 		user: ID
-		course_id: [Int]
+		course_id: Int
 		start_time: String
 		end_time: String
 		number_of_players:[Int]
