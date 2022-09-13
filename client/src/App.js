@@ -1,34 +1,12 @@
-<<<<<<< HEAD
-import BottmNav from './components/BottomNav'
-import SignIn from './components/SignIn';
-import SignUp from './components/SignUp';
-import ResponsiveAppBar from './components/AppBar';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
-
-function App() {
-  return (
-    <Router>
-      <ResponsiveAppBar />
-      <div className="App">
-        <Switch>
-          {/* <Route exact path="/" component={SignIn} /> */}
-          <Route exact path="/signin" component={SignIn} />
-          <Route exact path="/signup" component={SignUp} />
-
-
-        </Switch>
-      </div>
-      <BottmNav />
-    </Router>
-=======
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-// import './App.css';
 import BottomNav from './components/BottomNav'
 import HeaderBar from './components/HeaderBar'
 import AddTeeTime from './pages/AddTeeTime';
 import TeeTimes from './pages/TeeTimes';
 import Account from './pages/Account';
 import Home from './pages/Home';
+import SignIn from './components/SignIn';
+import SignUp from './components/SignUp';
 
 function App() {
   return (
@@ -54,6 +32,14 @@ function App() {
               path="/account"
               element={<Account />}
             />
+            <Route
+              path="/sign-in"
+              element={<SignIn />}
+            />
+            <Route
+              path="/sign-up"
+              element={<SignUp />}
+            />
           </Routes>
         </div>
         <header className="App-header">
@@ -61,7 +47,6 @@ function App() {
         </header>
       </Router>
     </div>
->>>>>>> develop
   );
 }
 
