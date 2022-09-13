@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import BottomNavigation from '@mui/material/BottomNavigation';
@@ -25,9 +26,9 @@ export default function FixedBottomNavigation() {
                         setValue(newValue);
                     }}
                 >
-                    <BottomNavigationAction label="Add" icon={<AddCircleIcon />} />
-                    <BottomNavigationAction label="Tee Times" icon={<GolfCourseIcon />} />
-                    <BottomNavigationAction label="Account" icon={<PersonIcon />} />
+                    <BottomNavigationAction label="Add" value="Add" icon={<AddCircleIcon />} component={Link} to='/create-tee-time'/>
+                    <BottomNavigationAction label="Tee Times" icon={<GolfCourseIcon />}  component={Link} to='/tee-times'/>
+                    <BottomNavigationAction label="Account" icon={<PersonIcon />} component={Link} to='/account'/>
                 </BottomNavigation>
             </Paper>
         </Box>
