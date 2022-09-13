@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/robjameva/tee-time-notifications/issues"
   },
-  "homepage": "https://github.com/robjameva/tee-time-notifications#readme"
+  "homepage": "https://github.com/robjameva/tee-time-notifications#readme",
+  "dependencies": {
+    "concurrently": "^7.4.0"
+  }
 }
