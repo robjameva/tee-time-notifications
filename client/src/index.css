@@ -11,3 +11,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.course-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  right: 12.5px;
+  position: relative;
+}
