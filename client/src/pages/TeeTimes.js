@@ -1,83 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Box from '@mui/material/Box';
 import WatchList from '../components/WatchList'
-import sunsetLogo from '../assets/images/sunset.png'
-import birkshireLogo from '../assets/images/birkshire.png'
-import pinchBrookLogo from '../assets/images/pinchBrook.png'
-import flandersLogo from '../assets/images/flanders.png'
+import { useQuery } from "@apollo/client";
+import { GET_TEE_TIMES_BY_USER } from "../utils/queries";
+import { formatDate, formatTime, getCourseName, getCourseLogo } from "../utils/helpers";
 
 const Home = () => {
-  const [teeTimes, setTeeTimes] = useState([
-    {
-      course: 5152,
-      start_time: '6:00am',
-      date: 'Sun, Sept 18th',
-      end_time: '8:30am',
-      num_golfers: 4
-    },
-    {
-      course: 5153,
-      start_time: '6:00am',
-      date: 'Sun, Sept 18th',
-      end_time: '8:30am',
-      num_golfers: 4
-    },
-    {
-      course: 5150,
-      start_time: '6:00am',
-      date: 'Sun, Sept 18th',
-      end_time: '8:30am',
-      num_golfers: 4
-    },
-    {
-      course: 5151,
-      start_time: '6:00am',
-      date: 'Sun, Sept 18th',
-      end_time: '8:30am',
-      num_golfers: 4
-    },
-    {
-      course: 9535,
-      start_time: '6:00am',
-      date: 'Sun, Sept 18th',
-      end_time: '8:30am',
-      num_golfers: 4
-    },
-  ]);
+  const { loading, error, data } = useQuery(GET_TEE_TIMES_BY_USER, {
+    variables: { "userId": "62f1cc529c6405b12f1d4826" }
+  });
 
-  function getCourseName(courseID) {
-    switch (courseID) {
-      case 5151:
-        return 'Flanders B/W';
-      case 9535:
-        return 'Flanders R/G';
-      case 5150:
-        return 'Birkshire Valley';
-      case 5153:
-        return 'Sunset Valley';
-      case 5152:
-        return 'Pinch Brook';
-      default:
-        return 'Undefined Course';
-    }
-  }
 
-  function getCourseLogo(courseID) {
-    switch (courseID) {
-      case 5151:
-        return flandersLogo;
-      case 9535:
-        return flandersLogo;
-      case 5150:
-        return birkshireLogo;
-      case 5153:
-        return sunsetLogo;
-      case 5152:
-        return pinchBrookLogo;
-      default:
-        return 'Undefined Course';
-    }
-  }
+  const [teeTimes, setTeeTimes] = useState([]);
+
+  useEffect(() => {
+    const teeTimeData = data?.getTeeTimesByUser || [];
+
+    const formattedTeeTimes = teeTimeData.map(item => {
+      return {
+        course: item.course_id,
+        start_time: formatTime(item.start_time),
+        date: formatDate(item.start_time),
+        end_time: formatTime(item.end_time),
+        num_golfers: item.number_of_players.join(',')
+      }
+    })
+
+    setTeeTimes(formattedTeeTimes);
+  }, [loading]);
+
 
   return (
     <div className="container">
