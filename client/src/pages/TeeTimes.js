@@ -81,15 +81,17 @@ const Home = () => {
 
   return (
     <div className="container">
-      <h1>Tee Times</h1>
-      {teeTimes.length ?
-        teeTimes.map((teeTime, index) => (
-          <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 2, marginBottom: 1 }} >
-            <WatchList course={getCourseName(teeTime.course)} courseLogo={getCourseLogo(teeTime.course)} date={teeTime.date} start_time={teeTime.start_time} end_time={teeTime.end_time} num_golfers={teeTime.num_golfers} />
-          </Box>
-        )) : <h1>No Tee Times</h1>}
+      {/* <h1 class="pageHeading">Your Watch List</h1> */}
+      {
+        teeTimes.length ?
+          teeTimes.map((teeTime, index) => (
+            <Box key={index} sx={{ display: 'flex', justifyContent: 'center', marginTop: 2, marginBottom: 1 }} >
+              <WatchList course={getCourseName(teeTime.course)} courseLogo={getCourseLogo(teeTime.course)} date={teeTime.date} start_time={teeTime.start_time} end_time={teeTime.end_time} num_golfers={teeTime.num_golfers} />
+            </Box>
+          )) : <h1>No Tee Times</h1>
+      }
 
-    </div>
+    </div >
   );
 };
 

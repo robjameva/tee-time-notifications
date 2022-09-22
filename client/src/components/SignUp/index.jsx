@@ -12,6 +12,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useMutation } from '@apollo/client';
+import { CREATE_USER } from '../../utils/mutations';
+import Auth from '../../utils/auth.js';
 
 function Copyright(props) {
     return (
@@ -29,13 +32,35 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignUp() {
-    const handleSubmit = (event) => {
+    const [createUser] = useMutation(CREATE_USER);
+
+
+
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+        const formData = new FormData(event.currentTarget);
+
+        try {
+            const { data } = await createUser({
+                variables: {
+                    input: {
+                        first_name: formData.get('firstName'),
+                        last_name: formData.get('lastName'),
+                        phone_number: formData.get('phoneNumber'),
+                        email: formData.get('email'),
+                        password: formData.get('password'),
+                    },
+                }
+            });
+
+            // if (data.login.user.isOwner) localStorage.setItem('isOwner', true);
+            console.log('LOGGED IN: ', data)
+            Auth.login(data.createUser.token);
+        } catch (e) {
+            console.error(e);
+        }
+
     };
 
     return (
@@ -79,6 +104,15 @@ export default function SignUp() {
                                     autoComplete="family-name"
                                 />
                             </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    id="phoneNumber"
+                                    label="Phone Number"
+                                    name="phoneNumber"
+                                />
+                            </Grid>
                             <Grid item xs={12}>
                                 <TextField
                                     required
@@ -98,12 +132,6 @@ export default function SignUp() {
                                     type="password"
                                     id="password"
                                     autoComplete="new-password"
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <FormControlLabel
-                                    control={<Checkbox value="allowExtraEmails" color="primary" />}
-                                    label="I want to receive inspiration, marketing promotions and updates via email."
                                 />
                             </Grid>
                         </Grid>

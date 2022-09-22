@@ -12,10 +12,14 @@ code {
     monospace;
 }
 
-.course-logo {
+.courseLogo {
   display: flex;
   justify-content: center;
   align-items: center;
-  right: 12.5px;
+  right: 32.5px;
   position: relative;
+}
+
+.pageHeading {
+  margin: auto;
 }

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,6 +12,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useMutation } from '@apollo/client';
+import { LOGIN_USER } from '../../utils/mutations';
+import Auth from '../../utils/auth.js';
 
 function Copyright(props) {
     return (
@@ -29,13 +32,29 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignIn() {
-    const handleSubmit = (event) => {
+    const [login] = useMutation(LOGIN_USER);
+    const savedEmail = localStorage.getItem('savedEmail') ? localStorage.getItem('savedEmail') : '';
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+        const formData = new FormData(event.currentTarget);
+
+        try {
+            const { data } = await login({
+                variables: {
+                    email: formData.get('email'),
+                    password: formData.get('password'),
+                },
+            });
+
+            if (formData.get('remember')) localStorage.setItem('savedEmail', formData.get('email'));
+
+            Auth.login(data.login.token);
+        } catch (e) {
+            console.error(e);
+        }
+
+
     };
 
     return (
@@ -66,6 +85,7 @@ export default function SignIn() {
                             name="email"
                             autoComplete="email"
                             autoFocus
+                            value={savedEmail}
                         />
                         <TextField
                             margin="normal"
@@ -78,7 +98,7 @@ export default function SignIn() {
                             autoComplete="current-password"
                         />
                         <FormControlLabel
-                            control={<Checkbox value="remember" color="primary" />}
+                            control={<Checkbox id="remember" name="remember" value="remember" color="primary" />}
                             label="Remember me"
                         />
                         <Button

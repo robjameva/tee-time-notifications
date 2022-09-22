@@ -13,7 +13,7 @@ import CopyAllIcon from '@mui/icons-material/CopyAll';
 export default function MediaControlCard({ course, courseLogo, date, start_time, end_time, num_golfers }) {
 
     return (
-        <Card sx={{ display: 'flex', width: '95%', 'justify-content': 'space-between', 'box-shadow': '1px 1px 10px -1px' }} variant="outlined">
+        <Card sx={{ display: 'flex', width: '95%', 'justifyContent': 'space-between', 'boxShadow': '1px 1px 10px -1px' }} variant="outlined">
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                 <CardContent sx={{ flex: '1 0 auto' }}>
                     <Typography component="div" variant="h5">
@@ -41,10 +41,10 @@ export default function MediaControlCard({ course, courseLogo, date, start_time,
                     </IconButton>
                 </Box>
             </Box>
-            <div class='course-logo'>
+            <div className='courseLogo'>
                 <CardMedia
                     component="img"
-                    sx={{ width: 175, height: 175, backgroundColor: 'success.light', 'object-fit': 'contain', 'border-radius': '3%' }}
+                    sx={{ width: 135, height: 135, backgroundColor: 'success.light', 'objectFit': 'contain', 'borderRadius': '3%' }}
                     image={courseLogo}
                     alt="Live from space album cover"
                 />
