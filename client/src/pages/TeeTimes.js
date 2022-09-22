@@ -4,10 +4,12 @@ import WatchList from '../components/WatchList'
 import { useQuery } from "@apollo/client";
 import { GET_TEE_TIMES_BY_USER } from "../utils/queries";
 import { formatDate, formatTime, getCourseName, getCourseLogo } from "../utils/helpers";
+import auth from '../utils/auth'
 
 const Home = () => {
+  const userId = auth.getProfile().data._id
   const { loading, error, data } = useQuery(GET_TEE_TIMES_BY_USER, {
-    variables: { "userId": "62f1cc529c6405b12f1d4826" }
+    variables: { userId }
   });
 
 
