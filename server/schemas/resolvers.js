@@ -24,15 +24,27 @@ const resolvers = {
 
             return result
         },
+        getTeeTimesByUser: async (parent, { userId }) => {
+            const result = await TeeTime.find({
+                user: userId,
+                start_time: {
+                    $gt: new Date()
+                }
+            })
+                .select('-__v')
+                .populate('user')
+
+            return result
+        },
         getWatchlist: async () => {
-            const result = await TeeTime.find({})
+            const result = await TeeTime.find({
+                start_time: {
+                    $gt: new Date()
+                }
+            })
                 .select('-__v')
 
-            let today = new Date().toJSON();
-
-            let fiteredResults = result.filter(event => event.start_time.toJSON() > today)
-
-            let resultArr = fiteredResults.map(({ _id }) => _id)
+            let resultArr = result.map(({ _id }) => _id)
 
             return resultArr
         },
