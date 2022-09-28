@@ -30,79 +30,49 @@ export const LOGIN_USER = gql`
     }
 `;
 
-export const MAKE_RESERVATION = gql`
-	mutation Mutation($input: ReservationCreateInput) {
-		createReservation(input: $input) {
-			_id
-			party_size
-			time_slot
-			user {
-				_id
-			}
-			restaurant {
-				_id
-			}
-		}
-	}
-`;
-
-export const EDIT_RESERVATION = gql`
-mutation Mutation($input: ReservationUpdateInput) {
-	updateReservation(input: $input) {
-	  _id
-	  party_size
-	  time_slot
-	  user {
+export const CREATE_TEETIME = gql`
+	mutation CreateTeeTime($input: TeeTimeInput) {
+		createTeeTime(input: $input) {
 		_id
-	  }
-	  restaurant {
+		user {
+			first_name
+		}
+		start_time
+		end_time
+		number_of_players
+		course_id
+		}
+	}
+`;
+export const DUPLICATE_TEETIME = gql`
+	mutation DuplicateTeeTime($id: ID!) {
+		duplicateTeeTime(_id: $id) {
 		_id
-	  }
-	}
-  }
-`;
-
-export const DELETE_RESERVATION = gql`
-	mutation Mutation($id: ID!) {
-		deleteReservation(_id: $id) {
-			_id
-			party_size
-			time_slot
-			user {
-				_id
-			}
-			restaurant {
-				_id
-			}
-		}
-	}
-`;
-
-export const DELETE_RESTAURANT = gql`
-	mutation DeleteRestaurant($id: ID!) {
-		deleteRestaurant(_id: $id) {
-			_id
-		}
-	}
-`;
-
-export const CREATE_RESTAURANT = gql`
-mutation CreateRestaurant($input: RestaurantInput) {
-	createRestaurant(input: $input) {
-	  _id
-	}
-  }
-`;
-
-export const EDIT_USER = gql`
-	mutation UpdateUser($input: UserUpdateInput) {
-		updateUser(input: $input) {
+		user {
 			_id
 			first_name
 			last_name
 			phone_number
 			email
-			isOwner
+		}
+		course_id
+		start_time
+		end_time
+		number_of_players
 		}
 	}
 `;
+
+export const DELETE_TEETIME = gql`
+	mutation DeleteTeeTime($id: ID!) {
+		deleteTeeTime(_id: $id) {
+		_id
+		course_id
+		start_time
+		end_time
+		number_of_players
+		}
+	}
+`;
+
+

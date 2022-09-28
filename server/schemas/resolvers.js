@@ -121,10 +121,27 @@ const resolvers = {
 
             return teeTime;
         },
+        duplicateTeeTime: async (parent, { _id }) => {
+            const teeTime = await TeeTime.findOne({ _id });
+            const duplicatedTeeTime = await TeeTime.create({
+                "course_id": teeTime.course_id,
+                "start_time": teeTime.start_time,
+                "end_time": teeTime.end_time,
+                "number_of_players": teeTime.number_of_players,
+                "user": teeTime.user,
+            });
+
+            return duplicatedTeeTime;
+        },
         deleteTeeTime: async (parent, { _id }) => {
             const teeTime = await TeeTime.findOneAndDelete({ _id })
 
             return teeTime;
+        },
+        deleteAllTeeTimes: async (parent) => {
+            const teeTime = await TeeTime.deleteMany()
+
+            return 'All Tee Times Deleted';
         },
     }
 };

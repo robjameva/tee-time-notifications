@@ -61,7 +61,9 @@ const typeDefs = gql`
 		createUser(input: UserInput): Auth
 		deleteUser(_id: ID!): User
 		createTeeTime(input: TeeTimeInput): TeeTime
+		duplicateTeeTime(_id: ID!): TeeTime
 		deleteTeeTime(_id: ID!): TeeTime
+		deleteAllTeeTimes: String
 	}	
 `;
 
