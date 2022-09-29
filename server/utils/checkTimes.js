@@ -5,8 +5,7 @@ const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 
 const client = require('twilio')(accountSid, authToken);
-const endpoint = 'https://tee-time-alerts.herokuapp.com/graphql';
-// const endpoint = 'http://localhost:3001/graphql'; 
+const endpoint = process.env.NODE_ENV === 'production' ? 'https://tee-time-alerts.herokuapp.com/graphql' : 'http://localhost:3001/graphql';
 
 
 const getWatchList = async () => {
