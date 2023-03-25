@@ -7,7 +7,6 @@ const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = require('twilio')(accountSid, authToken);
 const endpoint = process.env.NODE_ENV === 'production' ? 'https://tee-time-alerts.herokuapp.com/graphql' : 'http://localhost:3001/graphql';
 
-
 const getWatchList = async () => {
     const query = `query Query {
         getWatchlist
@@ -16,14 +15,11 @@ const getWatchList = async () => {
     return await request(endpoint, query)
 }
 
-
 // Run GraphQL queries/mutations using a static function
 let task = async () => {
-
     const watchList = await getWatchList()
 
-
-    const query = `query CheckAvailability($id: ID!) {
+    const query = `query checkAvailability($id: ID!) {
         checkAvailability(_id: $id) {
             user {
             _id
@@ -51,9 +47,10 @@ let task = async () => {
             client.messages.create({
                 body:
                     `${result.checkAvailability.teetimes.join()}`,
-                from: '+19808426566',
+                from: '+19734345791',
                 to: `+1${phoneNum}`
-            })
+            }).then(message => console.log(message))
+                .done();
         }
     })
 };
