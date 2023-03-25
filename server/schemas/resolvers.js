@@ -1,5 +1,5 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { User, TeeTime } = require('../models');
+const { User, TeeTime, Queue } = require('../models');
 const { signToken } = require('../utils/auth');
 const scrape = require('../scrapper');
 const { format_hours, get_course_name, get_course_link, format_text } = require('../utils/helpers');
@@ -15,6 +15,17 @@ const resolvers = {
         getAllUsers: async () => {
             return User.find({})
                 .select('-__v')
+        },
+        readQueue: async () => {
+            return Queue.find({})
+                .select('-__v')
+                .populate({
+                    path: 'tee_time_id',
+                    populate: {
+                        path: 'user',
+                        model: 'User'
+                    }
+                })
         },
         // Method used for dev purposes only - not needed in prod
         getAllTeeTimes: async () => {
@@ -120,6 +131,11 @@ const resolvers = {
 
 
             return teeTime;
+        },
+        addItemToQueue: async (parent, { input }) => {
+            const item = await Queue.create(input);
+
+            return item;
         },
         duplicateTeeTime: async (parent, { _id }) => {
             const teeTime = await TeeTime.findOne({ _id });
