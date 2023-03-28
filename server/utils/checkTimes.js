@@ -56,16 +56,16 @@ let task = async () => {
     const result = await request(endpoint, query, { "id": ids[i] });
     console.log('results : ', result);
 
-    // if (result.checkAvailability.teetimes.length > 0) {
-    //     let phoneNum = result.checkAvailability.user.phone_number;
-    //     client.messages.create({
-    //         body:
-    //             `${result.checkAvailability.teetimes.join()}`,
-    //         from: '+19734345791',
-    //         to: `+1${phoneNum}`
-    //     }).then(message => console.log(message))
-    //         .done();
-    // }
+    if (result.checkAvailability.teetimes.length > 0) {
+      let phoneNum = result.checkAvailability.user.phone_number;
+      client.messages.create({
+        body:
+          `${result.checkAvailability.teetimes.join()}`,
+        from: '+19734345791',
+        to: `+1${phoneNum}`
+      }).then(message => console.log(message))
+        .done();
+    }
   }
 };
 
