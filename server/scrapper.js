@@ -3,7 +3,7 @@ const puppeteer = require('puppeteer')
 
 async function scrape(date, course, numGolfers) {
     const teeTimes = [];
-    const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox'] })
+    const browser = await puppeteer.launch({ args: ['--no-sandbox'] })
     const page = await browser.newPage()
     const hasGolfers = numGolfers ? `&golfers=${numGolfers}` : ''
 
