@@ -47,13 +47,17 @@ const resolvers = {
 
             return result
         },
+        getTeeTimeById: async (parent, { _id }) => {
+            return TeeTime.findOne({ _id: _id })
+                .select('-__v')
+        },
         getWatchlist: async () => {
             const result = await TeeTime.find({
                 start_time: {
                     $gt: new Date()
                 }
-            })
-                .select('-__v')
+            }).select('-__v')
+
 
             let resultArr = result.map(({ _id }) => _id)
 

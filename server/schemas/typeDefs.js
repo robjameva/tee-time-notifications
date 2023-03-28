@@ -67,6 +67,7 @@ const typeDefs = gql`
 		getAllUsers: [User]
 		readQueue: [Queue]
 		getAllTeeTimes: [TeeTime]
+		getTeeTimeById(_id: ID!): TeeTime
 		getTeeTimesByUser(userId: ID!):[TeeTime]
 		getWatchlist: [String]
 		checkAvailability(_id: ID!): TeeTimeResponse
