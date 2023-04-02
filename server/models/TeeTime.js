@@ -9,6 +9,10 @@ const teeTimeSchema = new Schema(
         course_id: {
             type: Number
         },
+        msg_count: {
+            type: Number,
+            default: 0
+        },
         start_time: {
             type: Date
         },

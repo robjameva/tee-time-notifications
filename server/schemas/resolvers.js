@@ -55,7 +55,10 @@ const resolvers = {
             const result = await TeeTime.find({
                 start_time: {
                     $gt: new Date()
-                }
+                },
+                msg_count: {
+                    $lt: 3
+                },
             }).select('-__v')
 
 
@@ -67,7 +70,6 @@ const resolvers = {
             const teeTime = await TeeTime.findOne({ _id })
                 .select('-__v')
                 .populate('user')
-
 
             const course = teeTime.course_id;
             const number_of_players = teeTime.number_of_players.join();
@@ -98,7 +100,7 @@ const resolvers = {
                 }
             })
 
-            return { user, teetimes }
+            return { user, teeTime, teetimes }
         },
     },
     Mutation: {
@@ -136,11 +138,6 @@ const resolvers = {
 
             return teeTime;
         },
-        addItemToQueue: async (parent, { input }) => {
-            const item = await Queue.create(input);
-
-            return item;
-        },
         duplicateTeeTime: async (parent, { _id }) => {
             const teeTime = await TeeTime.findOne({ _id });
             const duplicatedTeeTime = await TeeTime.create({
@@ -152,6 +149,15 @@ const resolvers = {
             });
 
             return duplicatedTeeTime;
+        },
+        editTeeTime: async (parent, { input }) => {
+            const updatedTeeTime = await TeeTime.findOneAndUpdate(
+                { _id: input._id },
+                input,
+                { new: true, runValidators: true }
+            );
+
+            return updatedTeeTime;
         },
         deleteTeeTime: async (parent, { _id }) => {
             const teeTime = await TeeTime.findOneAndDelete({ _id })

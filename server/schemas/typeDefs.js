@@ -24,6 +24,7 @@ const typeDefs = gql`
 		_id: ID
 		user: User
 		course_id: Int
+		msg_count: Int
 		start_time: String
 		end_time: String
 		number_of_players:[Int]
@@ -45,11 +46,13 @@ const typeDefs = gql`
 		number_of_players:[Int]
 	}
 	
-	input addItemToQueueInput {
-		tee_time_id: ID
-		status: String
-		job_start: String
-		job_end: String
+	input editTeeTimeInput {
+		_id: ID!
+		course_id: Int
+		start_time: String
+		end_time: String
+		number_of_players:[Int]
+		msg_count: Int
 	}
 
 	type Auth {
@@ -59,6 +62,7 @@ const typeDefs = gql`
 
 	type TeeTimeResponse {
 		user: User
+		teeTime: TeeTime
 		teetimes: [String]
 	}
 	
@@ -78,8 +82,8 @@ const typeDefs = gql`
 		createUser(input: UserInput): Auth
 		deleteUser(_id: ID!): User
 		createTeeTime(input: TeeTimeInput): TeeTime
-		addItemToQueue(input: addItemToQueueInput): Queue
 		duplicateTeeTime(_id: ID!): TeeTime
+		editTeeTime(input: editTeeTimeInput): TeeTime
 		deleteTeeTime(_id: ID!): TeeTime
 		deleteAllTeeTimes: String
 	}	
