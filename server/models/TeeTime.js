@@ -13,6 +13,10 @@ const teeTimeSchema = new Schema(
             type: Number,
             default: 0
         },
+        priority: {
+            type: Number,
+            default: 10
+        },
         start_time: {
             type: Date
         },
@@ -25,6 +29,9 @@ const teeTimeSchema = new Schema(
     }
 );
 
+teeTimeSchema.virtual('is_active').get(function() {
+    return this.start_time > new Date() && this.msg_count < 3;
+});
 
 const TeeTime = model('TeeTime', teeTimeSchema);
 

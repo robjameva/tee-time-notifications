@@ -25,6 +25,8 @@ const typeDefs = gql`
 		user: User
 		course_id: Int
 		msg_count: Int
+		priority: Int
+		is_active: Boolean
 		start_time: String
 		end_time: String
 		number_of_players:[Int]
@@ -44,6 +46,7 @@ const typeDefs = gql`
 		start_time: String
 		end_time: String
 		number_of_players:[Int]
+		priority: Int
 	}
 	
 	input editTeeTimeInput {
@@ -53,6 +56,7 @@ const typeDefs = gql`
 		end_time: String
 		number_of_players:[Int]
 		msg_count: Int
+		priority: Int
 	}
 
 	type Auth {
@@ -63,7 +67,7 @@ const typeDefs = gql`
 	type TeeTimeResponse {
 		user: User
 		teeTime: TeeTime
-		teetimes: [String]
+		smsMessage: String
 	}
 	
 	type Query {

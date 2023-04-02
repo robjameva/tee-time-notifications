@@ -15,17 +15,18 @@ const task = async () => {
 
   for (const id of ids) {
     const result = await request(endpoint, checkAvailability, { "id": id });
-    const teetimes = result.checkAvailability.teetimes;
+    let { smsMessage, user, teeTime } = result.checkAvailability;
 
     console.log(result);
 
-    if (teetimes.length) {
-      const phoneNum = result.checkAvailability.user.phone_number;
-      const message = `${teetimes.join()}`;
-      client.messages.create({ body: message, from: '+19734345791', to: `+1${phoneNum}` }).then(message => console.log(message));
+    if (smsMessage.length) {
+      const phoneNum = user.phone_number;
+      smsMessage = teeTime.msg_count === 2 ? 'Warning this is the 3rd and final alert: This search is now inactive\n\n' + smsMessage : smsMessage;
+
+      client.messages.create({ body: smsMessage, from: '+19734345791', to: `+1${phoneNum}` }).then(message => console.log(message));
 
       // Increase msg_count by 1
-      let count = result.checkAvailability.teeTime.msg_count + 1;
+      let count = teeTime.msg_count + 1;
       await request(endpoint, editTeeTime, {
         "input": {
           "_id": id,

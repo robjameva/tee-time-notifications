@@ -15,7 +15,7 @@ const checkAvailability = `query checkAvailability($id: ID!) {
             end_time
             number_of_players
           }
-        teetimes
+        smsMessage
     }
 }`;
 
