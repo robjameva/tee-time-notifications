@@ -1,8 +1,12 @@
 const { AuthenticationError } = require('apollo-server-express');
 const { User, TeeTime, Queue } = require('../models');
 const { signToken } = require('../utils/auth');
+const dateScalar = require('../utils/scalars');
 const scrape = require('../scrapper');
 const { format_hours, get_course_name, get_course_link, format_text } = require('../utils/helpers');
+
+
+
 
 const resolvers = {
     Query: {
@@ -32,6 +36,8 @@ const resolvers = {
             const result = await TeeTime.find({})
                 .select('-__v')
                 .populate('user')
+
+            console.log('Result: ', result)
 
             return result
         },
@@ -163,7 +169,8 @@ const resolvers = {
 
             return 'All Tee Times Deleted';
         },
-    }
+    },
+    Date: dateScalar,
 };
 
 module.exports = resolvers;

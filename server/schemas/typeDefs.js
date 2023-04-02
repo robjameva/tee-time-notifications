@@ -4,6 +4,8 @@ const { gql } = require('apollo-server-express');
 // create our typeDefs
 const typeDefs = gql`
 
+	scalar Date
+
 	type User {
 		_id: ID
 		first_name: String
@@ -24,8 +26,8 @@ const typeDefs = gql`
 		_id: ID
 		user: User
 		course_id: Int
-		start_time: String
-		end_time: String
+		start_time(date5: Date): Date
+		end_time: Date
 		number_of_players:[Int]
 	}
 
@@ -40,8 +42,8 @@ const typeDefs = gql`
 	input TeeTimeInput {
 		user: ID
 		course_id: Int
-		start_time: String
-		end_time: String
+		start_time: Date
+		end_time: Date
 		number_of_players:[Int]
 	}
 	
