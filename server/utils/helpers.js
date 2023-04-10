@@ -66,9 +66,7 @@ module.exports = {
                 return `Undefined Link`
         }
     },
-    format_text(formatted_date, course_name, course_link) {
-        return `✅ ${formatted_date} is available at ${course_name}
-
-Book your tee time here: ${course_link}`
+    format_text(formatted_date, course_name) {
+        return `✅ ${formatted_date} is available at ${course_name}`
     }
 }

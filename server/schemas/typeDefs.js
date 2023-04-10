@@ -12,10 +12,21 @@ const typeDefs = gql`
 		email: String
 	}
 
+	type Queue {
+		_id: ID
+		tee_time_id: TeeTime
+		status: String
+		job_start: String
+		job_end: String
+	}
+
 	type TeeTime {
 		_id: ID
 		user: User
 		course_id: Int
+		msg_count: Int
+		priority: Int
+		is_active: Boolean
 		start_time: String
 		end_time: String
 		number_of_players:[Int]
@@ -35,6 +46,17 @@ const typeDefs = gql`
 		start_time: String
 		end_time: String
 		number_of_players:[Int]
+		priority: Int
+	}
+	
+	input editTeeTimeInput {
+		_id: ID!
+		course_id: Int
+		start_time: String
+		end_time: String
+		number_of_players:[Int]
+		msg_count: Int
+		priority: Int
 	}
 
 	type Auth {
@@ -44,13 +66,16 @@ const typeDefs = gql`
 
 	type TeeTimeResponse {
 		user: User
-		teetimes: [String]
+		teeTime: TeeTime
+		smsMessage: String
 	}
 	
 	type Query {
 		getUser(userId: ID!): User
 		getAllUsers: [User]
+		readQueue: [Queue]
 		getAllTeeTimes: [TeeTime]
+		getTeeTimeById(_id: ID!): TeeTime
 		getTeeTimesByUser(userId: ID!):[TeeTime]
 		getWatchlist: [String]
 		checkAvailability(_id: ID!): TeeTimeResponse
@@ -62,6 +87,7 @@ const typeDefs = gql`
 		deleteUser(_id: ID!): User
 		createTeeTime(input: TeeTimeInput): TeeTime
 		duplicateTeeTime(_id: ID!): TeeTime
+		editTeeTime(input: editTeeTimeInput): TeeTime
 		deleteTeeTime(_id: ID!): TeeTime
 		deleteAllTeeTimes: String
 	}	

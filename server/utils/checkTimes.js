@@ -1,62 +1,40 @@
 require('dotenv').config();
 const { request } = require('graphql-request')
 const cron = require('node-cron');
+const { checkAvailability, getWatchlist } = require('./queries');
+const { editTeeTime } = require('./mutations');
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
-
 const client = require('twilio')(accountSid, authToken);
-// const endpoint = 'https://tee-time-alerts.herokuapp.com/graphql';
-const endpoint = 'http://localhost:3001/graphql';
+const endpoint = process.env.NODE_ENV === 'production' ? 'https://tee-time-alerts.herokuapp.com/graphql' : 'http://localhost:3001/graphql';
 
 
-const getWatchList = async () => {
-    const query = `query Query {
-        getWatchlist
-      }`;
+const task = async () => {
+  const watchList = await request(endpoint, getWatchlist);
+  const ids = watchList.getWatchlist;
 
-    return await request(endpoint, query)
-}
+  for (const id of ids) {
+    const result = await request(endpoint, checkAvailability, { "id": id });
+    let { smsMessage, user, teeTime } = result.checkAvailability;
 
+    console.log(result);
 
-// Run GraphQL queries/mutations using a static function
-let task = async () => {
+    if (smsMessage.length) {
+      const phoneNum = user.phone_number;
+      smsMessage = teeTime.msg_count === 2 ? 'Warning this is the 3rd and final alert: This search is now inactive\n\n' + smsMessage : smsMessage;
 
-    const watchList = await getWatchList()
+      client.messages.create({ body: smsMessage, from: '+19734345791', to: `+1${phoneNum}` }).then(message => console.log(message));
 
-
-    const query = `query CheckAvailability($id: ID!) {
-        checkAvailability(_id: $id) {
-            user {
-            _id
-            first_name
-            last_name
-            phone_number
-            email
-            }
-            teetimes
+      // Increase msg_count by 1
+      let count = teeTime.msg_count + 1;
+      await request(endpoint, editTeeTime, {
+        "input": {
+          "_id": id,
+          "msg_count": count,
         }
-    }`;
-
-    watchList.getWatchlist.forEach(async (time) => {
-
-        const variables = {
-            "id": time
-        }
-
-        const result = await request(endpoint, query, variables)
-
-        console.log('results : ', result)
-
-        if (result.checkAvailability.teetimes.length > 0) {
-            let phoneNum = result.checkAvailability.user.phone_number;
-            client.messages.create({
-                body:
-                    `${result.checkAvailability.teetimes.join()}`,
-                from: '+19808426566',
-                to: `+1${phoneNum}`
-            })
-        }
-    })
+      });
+    }
+  }
 };
 
 task();
