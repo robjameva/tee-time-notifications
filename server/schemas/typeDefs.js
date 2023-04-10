@@ -10,6 +10,7 @@ const typeDefs = gql`
 		last_name: String
 		phone_number: String
 		email: String
+		priority: Int
 	}
 
 	type Queue {
@@ -59,6 +60,15 @@ const typeDefs = gql`
 		priority: Int
 	}
 
+	input editUserInput {
+		_id: ID!
+		first_name: String
+		last_name: String
+		phone_number: String
+		email: String
+		priority: Int
+	}
+
 	type Auth {
 		token: ID!
 		user: User
@@ -88,6 +98,7 @@ const typeDefs = gql`
 		createTeeTime(input: TeeTimeInput): TeeTime
 		duplicateTeeTime(_id: ID!): TeeTime
 		editTeeTime(input: editTeeTimeInput): TeeTime
+		editUser(input: editUserInput): User
 		deleteTeeTime(_id: ID!): TeeTime
 		deleteAllTeeTimes: String
 	}	

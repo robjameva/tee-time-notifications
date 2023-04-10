@@ -41,6 +41,7 @@ export const CREATE_TEETIME = gql`
 		end_time
 		number_of_players
 		course_id
+		priority
 		}
 	}
 `;

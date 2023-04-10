@@ -27,6 +27,10 @@ const userSchema = new Schema(
             type: String,
             required: true,
         },
+        priority: {
+            type: Number,
+            default: 10
+        },
     }
 );
 

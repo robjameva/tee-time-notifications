@@ -148,6 +148,15 @@ const resolvers = {
 
             return updatedTeeTime;
         },
+        editUser: async (parent, { input }) => {
+            const updatedUser = await User.findOneAndUpdate(
+                { _id: input._id },
+                input,
+                { new: true, runValidators: true }
+            );
+
+            return updatedUser;
+        },
         deleteTeeTime: async (parent, { _id }) => {
             const teeTime = await TeeTime.findOneAndDelete({ _id })
 

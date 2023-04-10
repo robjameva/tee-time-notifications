@@ -16,6 +16,8 @@ import Select from '@mui/material/Select';
 import { Button, ButtonGroup, Autocomplete, Box, TextField, Stack } from "@mui/material";
 import { useMutation } from '@apollo/client';
 import { CREATE_TEETIME } from '../../utils/mutations';
+import auth from '../../utils/auth';
+
 
 function AddTeeTime({ desktop }) {
   const dateInputRef = useRef(null);
@@ -61,19 +63,9 @@ function AddTeeTime({ desktop }) {
   const handleCreate = async (event) => {
     event.preventDefault();
 
-    let day = dayjs(date).format('YYYY-MM-DD')
-    let start_hour = startTime.format('HH')
-    let start_minute = startTime.format('mm')
-    let start_time = formatDate(day, start_hour, start_minute)
-
-    let end_hour = endTime.format('HH')
-    let end_minute = endTime.format('mm')
-    let end_time = formatDate(day, end_hour, end_minute)
-
-    console.log('startTime: ', start_time)
-    console.log('endTime: ', end_time)
-    console.log('course: ', course)
-    console.log('players: ', players)
+    let start_time = formatDate(dayjs(date).format('YYYY-MM-DD'), startTime.format('HH'), startTime.format('mm'))
+    let end_time = formatDate(dayjs(date).format('YYYY-MM-DD'), endTime.format('HH'), endTime.format('mm'))
+    const { _id, priority } = auth.getProfile().data;
 
     try {
       const { data } = await createTeetime({
@@ -82,9 +74,9 @@ function AddTeeTime({ desktop }) {
             course_id: course,
             start_time: start_time,
             end_time: end_time,
-            number_of_players: players,
-            user: "630280d9e88a3635cd76cf7c",
-            // priority: 10,
+            number_of_players: players.sort(),
+            user: _id,
+            priority: priority,
           }
         }
       });
