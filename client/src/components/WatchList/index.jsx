@@ -12,7 +12,7 @@ import CopyAllIcon from '@mui/icons-material/CopyAll';
 import { useMutation } from '@apollo/client';
 import { DELETE_TEETIME, DUPLICATE_TEETIME } from '../../utils/mutations';
 
-export default function MediaControlCard({ handleRenderOnDelete, handleRenderOnDuplicate, id, course, courseLogo, date, start_time, end_time, num_golfers }) {
+export default function MediaControlCard({ handleListUpdate, toggleOpen, id, course, courseLogo, date, start_time, end_time, num_golfers, active }) {
     const [deleteTeetime] = useMutation(DELETE_TEETIME);
     const [duplicateTeetime] = useMutation(DUPLICATE_TEETIME);
 
@@ -21,7 +21,7 @@ export default function MediaControlCard({ handleRenderOnDelete, handleRenderOnD
 
         try {
             const { data } = await deleteTeetime({ variables: { id } });
-            handleRenderOnDelete(id)
+            handleListUpdate()
         } catch (e) {
             console.error(e);
         }
@@ -32,7 +32,7 @@ export default function MediaControlCard({ handleRenderOnDelete, handleRenderOnD
 
         try {
             const { data } = await duplicateTeetime({ variables: { id } });
-            handleRenderOnDuplicate(id, data.duplicateTeeTime)
+            handleListUpdate()
             // console.error('id: ', id);
             // console.error('data.duplicateTeeTime: ', data.duplicateTeeTime);
 
@@ -59,7 +59,7 @@ export default function MediaControlCard({ handleRenderOnDelete, handleRenderOnD
                     </Typography>
                 </CardContent>
                 <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
-                    <IconButton aria-label="edit">
+                    <IconButton aria-label="edit" onClick={(event) => toggleOpen(event, id)}>
                         <EditIcon color="primary" />
                     </IconButton>
                     <IconButton aria-label="duplicate" onClick={(event) => handleDuplicate(event, id)}>
@@ -73,7 +73,7 @@ export default function MediaControlCard({ handleRenderOnDelete, handleRenderOnD
             <div className='courseLogo'>
                 <CardMedia
                     component="img"
-                    sx={{ width: 135, height: 135, backgroundColor: 'success.light', 'objectFit': 'contain', 'borderRadius': '3%' }}
+                    sx={{ width: 135, height: 135, backgroundColor: active ? 'success.light' : 'gray', 'objectFit': 'contain', 'borderRadius': '3%' }}
                     image={courseLogo}
                     alt="Live from space album cover"
                 />

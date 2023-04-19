@@ -36,6 +36,8 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+export const UserContext = React.createContext();
+
 function App() {
   const isLoggedIn = auth.loggedIn();
   const profile = isLoggedIn ? auth.getProfile() : null;
@@ -44,6 +46,7 @@ function App() {
 
   return (
     <ApolloProvider client={client}>
+      {/* <UserContext.Provider value='Robert'> */}
       <div className="App">
         <Router>
           <HeaderBar username={name} />
@@ -51,7 +54,7 @@ function App() {
             <Routes>
               <Route
                 path="/"
-                element={<Home />}
+                element={<SignIn />}
               />
               <Route
                 path="/create-tee-time"
@@ -80,7 +83,8 @@ function App() {
           </header>
         </Router>
       </div>
-    </ApolloProvider>
+      {/* </UserContext.Provider> */}
+    </ApolloProvider >
   );
 }
 

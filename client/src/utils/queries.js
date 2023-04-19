@@ -62,6 +62,7 @@ export const GET_TEE_TIMES_BY_USER = gql`
 		start_time
 		end_time
 		number_of_players
+		is_active
 		}
 	}
 `;

@@ -1,30 +1,38 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
-import Slider from '@mui/material/Slider';
 import Typography from '@mui/material/Typography';
 import SearchIcon from '@mui/icons-material/Search';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import OutlinedInput from '@mui/material/OutlinedInput';
 import Select from '@mui/material/Select';
 import { Button, ButtonGroup, Autocomplete, Box, TextField, Stack } from "@mui/material";
 import { useMutation } from '@apollo/client';
-import { CREATE_TEETIME } from '../../utils/mutations';
+import { CREATE_TEETIME, EDIT_TEETIME } from '../../utils/mutations';
 import auth from '../../utils/auth';
 
-
-function AddTeeTime({ desktop }) {
+function AddTeeTime({ desktop, is_edit, current, toggleOpen }) {
   const dateInputRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    let dateValue = dateInputRef.current.querySelector('input').value;
-    setDateValue(dateValue);
+    if (current) {
+      console.log('current: ', current)
+      let split = current.date.split(' ')
+      setDateValue(dayjs(`${split[1]} ${split[2]}`, 'MMM DD'))
+      setStartTimeValue(dayjs(`${split[1]} ${split[2]} ${current.start_time}`, 'MMM DD h:mm A'))
+      setEndTimeValue(dayjs(`${split[1]} ${split[2]} ${current.end_time}`, 'MMM DD h:mm A'))
+      setCourse(current.course)
+      setPlayers(current.num_golfers.split(',').map(Number))
+    } else {
+      setDateValue(dateInputRef.current.querySelector('input').value);
+    }
   }, []);
 
   const [date, setDateValue] = useState(dayjs().add(1, 'day').hour(0).minute(0));
@@ -58,6 +66,7 @@ function AddTeeTime({ desktop }) {
   ];
 
   const [createTeetime] = useMutation(CREATE_TEETIME);
+  const [editTeetime] = useMutation(EDIT_TEETIME);
 
 
   const handleCreate = async (event) => {
@@ -80,6 +89,48 @@ function AddTeeTime({ desktop }) {
           }
         }
       });
+
+      navigate('/tee-times');
+
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleEdit = async (event) => {
+    event.preventDefault();
+
+    let start_time = formatDate(dayjs(date).format('YYYY-MM-DD'), startTime.format('HH'), startTime.format('mm'))
+    let end_time = formatDate(dayjs(date).format('YYYY-MM-DD'), endTime.format('HH'), endTime.format('mm'))
+
+    console.log('start_time: ', start_time)
+    console.log('input: ', {
+      variables: {
+        input: {
+          _id: current.id,
+          course_id: course,
+          start_time: start_time,
+          end_time: end_time,
+          number_of_players: players.sort(),
+        }
+      }
+    })
+
+    try {
+      const { data } = await editTeetime({
+        variables: {
+          input: {
+            _id: current.id,
+            course_id: course,
+            start_time: start_time,
+            end_time: end_time,
+            number_of_players: players.sort(),
+          }
+        }
+      });
+
+      toggleOpen()
+      navigate('/tee-times');
 
     } catch (e) {
       console.error(e);
@@ -114,6 +165,7 @@ function AddTeeTime({ desktop }) {
   const formatDate = (day, hour, minute) => {
     return `${day}T${hour}:${minute}:00.000Z`
   }
+
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 3, marginBottom: 3 }} >
@@ -176,8 +228,8 @@ function AddTeeTime({ desktop }) {
             <Button onClick={() => handlePlayerCountChange(3)} variant={players.includes(3) ? 'contained' : 'outlined'}>Three</Button>
             <Button onClick={() => handlePlayerCountChange(4)} variant={players.includes(4) ? 'contained' : 'outlined'}>Four</Button>
           </ButtonGroup>
-          <Button onClick={handleCreate} variant="outlined" startIcon={<SearchIcon />}>
-            Start Searching
+          <Button onClick={is_edit ? handleEdit : handleCreate} variant="outlined" startIcon={<SearchIcon />} disabled={course && players.length ? false : true}>
+            {is_edit ? 'Update Tee Time' : 'Start Searching'}
           </Button>
         </Stack>
       </LocalizationProvider>

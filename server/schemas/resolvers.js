@@ -38,9 +38,9 @@ const resolvers = {
         getTeeTimesByUser: async (parent, { userId }) => {
             const result = await TeeTime.find({
                 user: userId,
-                start_time: {
-                    $gt: new Date()
-                }
+                // start_time: {
+                //     $gt: new Date()
+                // }
             })
                 .select('-__v')
                 .populate('user')
