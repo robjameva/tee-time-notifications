@@ -23,5 +23,8 @@
   "homepage": "https://github.com/robjameva/tee-time-notifications#readme",
   "dependencies": {
     "concurrently": "^7.4.0"
+  },
+  "engines": {
+    "node": "14.17.5"
   }
 }
