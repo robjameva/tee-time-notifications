@@ -46,7 +46,7 @@ export const CREATE_TEETIME = gql`
 	}
 `;
 
-export const EDIT_TEETIME = gql`
+export const EDIT_TEETIME = gql` 
 	mutation EditTeeTime($input: editTeeTimeInput) {
 		editTeeTime(input: $input) {
 		_id
