@@ -22,6 +22,9 @@ function AddTeeTime({ desktop, is_edit, current, toggleOpen }) {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const isLoggedIn = auth.loggedIn();
+    if (!isLoggedIn) navigate('/');
+
     if (current) {
       console.log('current: ', current)
       let split = current.date.split(' ')

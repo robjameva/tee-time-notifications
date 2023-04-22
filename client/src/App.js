@@ -79,7 +79,7 @@ function App() {
             </Routes>
           </div>
           <header className="App-header">
-            <BottomNav />
+            {isLoggedIn ? <BottomNav /> : null}
           </header>
         </Router>
       </div>

@@ -85,7 +85,7 @@ export default function SignIn() {
                             name="email"
                             autoComplete="email"
                             autoFocus
-                            value={savedEmail}
+                            defaultValue={savedEmail}
                         />
                         <TextField
                             margin="normal"

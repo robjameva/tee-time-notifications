@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect } from "react";
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -11,10 +11,16 @@ import EditIcon from '@mui/icons-material/Edit';
 import CopyAllIcon from '@mui/icons-material/CopyAll';
 import { useMutation } from '@apollo/client';
 import { DELETE_TEETIME, DUPLICATE_TEETIME } from '../../utils/mutations';
+import Auth from '../../utils/auth.js';
 
 export default function MediaControlCard({ handleListUpdate, toggleOpen, id, course, courseLogo, date, start_time, end_time, num_golfers, active }) {
     const [deleteTeetime] = useMutation(DELETE_TEETIME);
     const [duplicateTeetime] = useMutation(DUPLICATE_TEETIME);
+
+    useEffect(() => {
+        const isLoggedIn = auth.loggedIn();
+        if (!isLoggedIn) navigate('/');
+    });
 
     const handleDelete = async (event, id) => {
         event.preventDefault();
