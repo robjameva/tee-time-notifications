@@ -15,9 +15,11 @@ import { Button, ButtonGroup, Autocomplete, Box, TextField, Stack } from "@mui/m
 import { useMutation } from '@apollo/client';
 import { CREATE_TEETIME, EDIT_TEETIME } from '../../utils/mutations';
 import auth from '../../utils/auth';
+import { useNavigate } from 'react-router-dom';
 
 function AddTeeTime({ desktop, is_edit, current, toggleOpen }) {
   const dateInputRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
 

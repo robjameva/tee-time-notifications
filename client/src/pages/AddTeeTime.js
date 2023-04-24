@@ -1,13 +1,14 @@
-import React from "react";
+import { useEffect } from "react";
 import AddTeeTime from "../components/AddTeeTime";
 import { useNavigate } from 'react-router-dom';
+import auth from '../utils/auth'
 
 
 const Home = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!Auth.loggedIn()) navigate('/');
+    if (!auth.loggedIn()) navigate('/');
   });
 
   return (
