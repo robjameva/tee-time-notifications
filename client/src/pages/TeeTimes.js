@@ -9,13 +9,16 @@ import { GET_TEE_TIMES_BY_USER } from "../utils/queries";
 import { formatDate, formatTime, getCourseName, getCourseLogo } from "../utils/helpers";
 import auth from '../utils/auth'
 import AddTeeTime from "../components/AddTeeTime";
+import { useNavigate } from 'react-router-dom';
+
+
 
 const TeeTimes = () => {
   const [teeTimes, setTeeTimes] = useState([]);
   const [active, setActive] = useState(true);
   const [open, setOpen] = useState(false);
   const [current, setCurrent] = useState({});
-
+  const navigate = useNavigate();
 
   const userId = auth.getProfile().data._id
   const { loading, error, data, refetch } = useQuery(GET_TEE_TIMES_BY_USER, {
@@ -60,6 +63,7 @@ const TeeTimes = () => {
   }, [loading, active]);
 
   useEffect(() => {
+    if (!auth.loggedIn()) navigate('/');
     handleListUpdate()
   }, []);
 

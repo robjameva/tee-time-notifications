@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -19,11 +18,8 @@ import auth from '../../utils/auth';
 
 function AddTeeTime({ desktop, is_edit, current, toggleOpen }) {
   const dateInputRef = useRef(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
-    const isLoggedIn = auth.loggedIn();
-    if (!isLoggedIn) navigate('/');
 
     if (current) {
       console.log('current: ', current)
