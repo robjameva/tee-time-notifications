@@ -54,22 +54,27 @@ function App() {
             <Routes>
               <Route
                 path="/"
+                exact
                 element={<SignIn />}
               />
               <Route
                 path="/create-tee-time"
+                exact
                 element={<AddTeeTime />}
               />
               <Route
                 path="/tee-times"
+                exact
                 element={<TeeTimes />}
               />
               <Route
                 path="/account"
+                exact
                 element={<Account />}
               />
               <Route
                 path="/sign-in"
+                exact
                 element={<SignIn />}
               />
               <Route
